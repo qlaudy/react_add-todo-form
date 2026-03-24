@@ -92,8 +92,8 @@ export const App = () => {
             type="text"
             data-cy="titleInput"
             value={title}
-            onChange={e => {
-              const cleanValue = e.target.value.replace(
+            onChange={event => {
+              const cleanValue = event.target.value.replace(
                 /[^a-zA-Zа-яА-ЯіїєґІЇЄҐ0-9\s]/g,
                 '',
               );
@@ -115,8 +115,8 @@ export const App = () => {
           <select
             data-cy="userSelect"
             value={userId}
-            onChange={e => {
-              setUserId(+e.target.value);
+            onChange={event => {
+              setUserId(+event.target.value);
               setUserError(false);
             }}
           >
