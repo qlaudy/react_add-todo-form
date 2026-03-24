@@ -23,7 +23,7 @@ export type Todo = {
 export const App = () => {
   const preparedTodos: Todo[] = todosFromServer.map(todo => ({
     ...todo,
-    user: usersFromServer.find(u => u.id === todo.userId)!,
+    user: usersFromServer.find(user => user.id === todo.userId)!,
   }));
 
   const [todos, setTodos] = useState<Todo[]>(preparedTodos);
@@ -56,8 +56,10 @@ export const App = () => {
       return;
     }
 
-    const user = usersFromServer.find(u => u.id === userId)!;
-    const maxId = todos.length ? Math.max(...todos.map(t => t.id)) : 0;
+    const user = usersFromServer.find(
+      currentUser => currentUser.id === userId,
+    )!;
+    const maxId = todos.length ? Math.max(...todos.map(todo => todo.id)) : 0;
     const newId = maxId + 1;
 
     const newTodo = {
@@ -68,7 +70,7 @@ export const App = () => {
       user: user,
     };
 
-    setTodos(prev => [...prev, newTodo]);
+    setTodos(prevTodos => [...prevTodos, newTodo]);
 
     setTitle('');
     setUserId(0);
@@ -82,6 +84,10 @@ export const App = () => {
 
       <form onSubmit={handleSubmit}>
         <div className="field">
+          <label htmlFor="todo-title" className="label">
+            Title
+          </label>
+
           <input
             type="text"
             data-cy="titleInput"
@@ -102,6 +108,10 @@ export const App = () => {
         </div>
 
         <div className="field">
+          <label htmlFor="user-select" className="label">
+            User
+          </label>
+
           <select
             data-cy="userSelect"
             value={userId}
